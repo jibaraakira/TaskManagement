@@ -1,0 +1,327 @@
+﻿<Window x:Class="ProjectDiary.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectDiary" 
+        d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1200">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Margin="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="タスク一覧" FontWeight="Bold" FontSize="15"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="日付範囲"/>
+                        <DatePicker Name="TodayDataPicker"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="タグ一覧"/>
+                        <TextBox Width="80"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="状態"/>
+                        <ComboBox Name="StatusSearchCmb"
+                                  Width="90"
+                                  
+                                  SelectedValuePath="Key"
+                                  DisplayMemberPath="Value"/>
+                    </StackPanel>
+                    <Button x:Name="DeleteTaskButton"
+                            Command="{Binding WorkTaskVMP.DeleteTaskCmd}"
+                            Padding="5 0"
+                            Margin="10 0 0 0"
+                            Content="削除"/>
+                </StackPanel>
+                <DataGrid Name="TaskViewList" 
+                          Grid.Row="2"
+                          ItemsSource="{Binding WorkTaskVMP.TaskList}" 
+                          SelectedIndex="{Binding WorkTaskVMP.SelectedIndex}"
+                          AutoGenerateColumns="False"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          CanUserAddRows="True"
+                          HeadersVisibility="Column">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment"
+                                Value="Center" />
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="2*">
+                            <DataGridTemplateColumn.HeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="DataGridColumnHeader">
+                                                <TextBlock Text="時間"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGridTemplateColumn.HeaderStyle>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Label Content="開始" Grid.Row="0" Grid.Column="0"/>
+                                        <Grid Grid.Row="0" Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition  Width="Auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="{Binding StartDate}" Grid.Column="0"/>
+                                            <Label Content="{Binding StartTime}" Grid.Column="1"/>
+                                        </Grid>
+                                        <Label Content="終了" Grid.Row="1" Grid.Column="0"/>
+                                        <Grid Grid.Row="1" Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition  Width="Auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="{Binding EndtDate}" Grid.Column="0"/>
+                                            <Label Content="{Binding EndTime}" Grid.Column="1"/>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="タスク名" Width="3*" 
+                                            Binding="{Binding TaskName}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style  TargetType="TextBlock">
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="タグ一覧" Width="2*" />
+                        <DataGridComboBoxColumn Header="状態" Width="1*"
+                                                x:Name="StatusColCmb"
+                                                DisplayMemberPath="StatusName"
+                                                SelectedValuePath="NowStatus"
+                                                SelectedValueBinding="{Binding Status, Mode=TwoWay}">
+                            <DataGridComboBoxColumn.ElementStyle>
+                                <Style TargetType="{x:Type ComboBox}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                </Style>
+                            </DataGridComboBoxColumn.ElementStyle>
+                        </DataGridComboBoxColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+            <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Content="チェックリスト" Grid.Row="0" FontWeight="Bold" FontSize="15" />
+                <local:CheckTreeView x:Name="CheckViewList" 
+                                     Grid.Row="1" 
+                                     ItemsSource="{Binding CheckListVMP.CheckTodoList}"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                     ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1" 
+                Margin="2"
+                VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="メモ一覧" 
+                           Grid.Column="0"
+                           FontWeight="Bold" 
+                           FontSize="15"/>
+                    <!-- 「メモ追加」ボタン -->
+                    <Button Name="AddMemoBtn"
+                             Grid.Column="2"
+                             Command="{Binding FixedMeMoVMP.CreateFixedNoteCmd}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Name="border" Background="LightGray">
+                                    <StackPanel Orientation="Horizontal" Name="NoteAddButton">
+                                        <Label Content="+" />
+                                        <Label Content="追加する" />
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" 
+                                             Value="true">
+                                        <Setter TargetName="border"
+                                                Property="Background"
+                                                Value="DarkGray" />
+                                        <Setter Property="Foreground"
+                                            Value="White" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+                <ListBox Name="MemoViewList" 
+                            ItemsSource="{Binding FixedMeMoVMP.FixedNoteList}"
+                            Grid.Row="1" 
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Stretch" 
+                                    Margin="0 0 0 10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0"
+                                Background="LightBlue" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="{Binding Headline}" 
+                                            Grid.Column="0"
+                                            HorizontalAlignment="Stretch"/>
+                                    <!-- 「段落消去」ボタン -->
+                                    <Button Command="{Binding DeleteParagraphCommand}"
+                                            CommandParameter="{Binding ParagraphIndex}"
+                                            Content="削除" 
+                                            Grid.Column="1"/>
+                                </Grid>
+                                <TextBox Grid.Row="1"
+                                        Name="IllustDataGridRemarks"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Text="{Binding ParagraphText}"
+                                        VerticalScrollBarVisibility="Hidden"
+                                        HorizontalScrollBarVisibility="Disabled"
+                                        TextWrapping="Wrap"
+                                        AcceptsReturn="True"
+                                        HorizontalAlignment="Stretch">
+                                </TextBox>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition  Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="メモ一覧" 
+                           Grid.Column="0"
+                           FontWeight="Bold" 
+                           FontSize="15"/>
+                    <!-- 「メモ追加」ボタン -->
+                    <Button  Grid.Column="2"
+                             Command="{Binding MemoListVMP.CreateMemoCmd}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Name="border" Background="LightGray">
+                                    <StackPanel Orientation="Horizontal" Name="NoteAddButton">
+                                        <Label Content="+" />
+                                        <Label Content="追加する" />
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" 
+                                             Value="true">
+                                        <Setter TargetName="border"
+                                                Property="Background"
+                                                Value="DarkGray" />
+                                        <Setter Property="Foreground"
+                                            Value="White" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+                <ListBox ItemsSource="{Binding MemoListVMP.NoteList}"
+                            Grid.Row="1" 
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Stretch" 
+                                    Margin="0 0 0 10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0"
+                                Background="LightBlue" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="{Binding NoteCreateTime}" 
+                                    Grid.Column="0"
+                                HorizontalAlignment="Stretch"/>
+                                    <!-- 「メモ消去」ボタン -->
+                                    <Button Name="MemoDeleteButton"
+                                    Command="{Binding DeleteNoteCommand}"
+                                    CommandParameter="{Binding NoteIndex}"
+                                    Content="削除" 
+                                    Grid.Column="1"/>
+                                </Grid>
+                                <TextBox Grid.Row="1"
+                                        Name="IllustDataGridRemarks"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Text="{Binding NoteText}"
+                                        VerticalScrollBarVisibility="Hidden"
+                                        HorizontalScrollBarVisibility="Disabled"
+                                        TextWrapping="Wrap"
+                                        AcceptsReturn="True"
+                                        HorizontalAlignment="Stretch">
+                                </TextBox>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
