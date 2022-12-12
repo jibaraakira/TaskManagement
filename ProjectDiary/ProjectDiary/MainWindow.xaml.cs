@@ -1,5 +1,6 @@
 ﻿using ProjectDiary.Program;
 using ProjectDiary.Program.DAO;
+using ProjectDiary.Program.Domains;
 using ProjectDiary.Program.DTO;
 using ProjectDiary.Program.ViewManipurator;
 using ProjectDiary.Program.ViewModelPart;
@@ -109,8 +110,8 @@ namespace ProjectDiary
     {
         public WorkTaskViewModelPart WorkTaskVMP { get; set; } = new WorkTaskViewModelPart();
         public CheckListViewModelPart CheckListVMP { get; set; } = new CheckListViewModelPart();
-        public MemoListViewModelPart MemoListVMP { get; set; } = new MemoListViewModelPart();
-        public FixedMemoViewModelPart FixedMeMoVMP { get; set; } = new FixedMemoViewModelPart();
+        public TimeNoteListViewModelPart MemoListVMP { get; set; } = new TimeNoteListViewModelPart();
+        public FixedNoteViewModelPart FixedMeMoVMP { get; set; } = new FixedNoteViewModelPart();
 
         /// <summary>
         /// コンストラクター
