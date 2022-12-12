@@ -34,5 +34,6 @@
         /// ステータス
         /// </summary>
         public Status Status { get; set; } = Status.Waiting;
+
     }
 }

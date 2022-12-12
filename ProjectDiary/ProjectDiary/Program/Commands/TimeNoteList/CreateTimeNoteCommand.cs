@@ -36,8 +36,10 @@ namespace ProjectDiary.Program.Commands.NoteList
         /// <param name="parameter">パラメーター。</param>
         public void Execute(object parameter)
         {
-            var newNoteIndex = memoList.Count;
-            TimeNote newNote = new TimeNote() { NoteIndex = newNoteIndex, NoteCreateTime = CustomDateTime.GetNowDateTime() };
+            TimeNote newNote = new TimeNote() { 
+                NoteIndex = memoList.Count, 
+                NoteCreateTime = CustomDateTime.GetNowDateTime()
+            };
             newNote.SetDeleteNoteComand(deleteCmd);
             memoList.Add(newNote);
         }

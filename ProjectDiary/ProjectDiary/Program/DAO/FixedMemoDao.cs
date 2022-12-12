@@ -19,7 +19,7 @@ namespace ProjectDiary.Program.DAO
                 new FixedNote()
                 {
                     Headline="abcd",
-                    ParagraphIndex=0,
+                    ParagraphIndex = 0,
                     ParagraphText="kkdkdkdkkdk"
                 },
                 new FixedNote()

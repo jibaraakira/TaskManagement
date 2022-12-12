@@ -6,7 +6,7 @@ namespace ProjectDiary.Program.DTO
     /// <summary>
     /// メモです。
     /// </summary>
-    internal class TimeNote : INotifyPropertyChanged
+    internal class TimeNote : ListDto, INotifyPropertyChanged
     {
         /// <summary>
         /// メモのインデックスです。
@@ -81,6 +81,9 @@ namespace ProjectDiary.Program.DTO
         {
             DeleteNoteCommand = cmd;
         }
+
+        public override void UpdateIndex(int index) => NoteIndex = index;
+
 
         /// <summary>
         /// プロパティが変化したことを通知します。

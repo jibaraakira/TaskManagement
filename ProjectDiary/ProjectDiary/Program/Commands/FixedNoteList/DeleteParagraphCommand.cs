@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectDiary.Program.Domains;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -44,6 +45,9 @@ namespace ProjectDiary.Program.Commands.FixedNoteList
             {
                 var set = fixedNoteList.First(item => item.ParagraphIndex == (int)parameter);
                 fixedNoteList.Remove(set);
+
+                fixedNoteList.UpdateItemIndex();
+
             }
         }
     }

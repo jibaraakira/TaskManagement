@@ -16,15 +16,17 @@ namespace ProjectDiary.Program.ViewModelPart
         /// </summary>
         public ObservableCollection<FixedNote> FixedNoteList { get; set; }
 
-        /// <summary>
-        /// 一覧にメモを追加するためのコマンドです。
-        /// </summary>
-        public CreateParagraphCommand CreateFixedNoteCmd { get; set; } = new CreateParagraphCommand();
 
         /// <summary>
         /// 一覧のメモを消去する処理ためのコマンドです。
         /// </summary>
         public DeleteParagraphCommand DeleteParagraphCmd { get; set; } = new DeleteParagraphCommand();
+
+        /// <summary>
+        /// 一覧にメモを追加するためのコマンドです。
+        /// </summary>
+        public CreateParagraphCommand CreateFixedNoteCmd { get; set; }
+
 
         /// <summary>
         /// 初期設定です。
@@ -41,6 +43,7 @@ namespace ProjectDiary.Program.ViewModelPart
                    })
                 );
 
+            CreateFixedNoteCmd = new CreateParagraphCommand(DeleteParagraphCmd);
             CreateFixedNoteCmd.SetDefalut(FixedNoteList);
             DeleteParagraphCmd.SetDefalut(FixedNoteList);
         }

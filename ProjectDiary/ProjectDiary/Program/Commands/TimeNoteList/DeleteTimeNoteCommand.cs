@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using ProjectDiary.Program.Domains;
 
 
 namespace ProjectDiary.Program.Commands.NoteList
@@ -44,6 +45,8 @@ namespace ProjectDiary.Program.Commands.NoteList
             {
                 var set = memoList.First(item => item.NoteIndex == (int)parameter);
                 memoList.Remove(set);
+
+                memoList.UpdateItemIndex();
             }
         }
     }

@@ -9,10 +9,19 @@ namespace ProjectDiary.Program.Commands.FixedNoteList
     public class CreateParagraphCommand: CreateFixedCmd, ICommand
     {
 
+        private readonly DeleteParagraphCommand deleteParagraphCmd;
+
         /// <summary>
         /// イベントハンドラーです。
         /// </summary>
         public event EventHandler CanExecuteChanged;
+
+
+        public CreateParagraphCommand(DeleteParagraphCommand command)
+        {
+            deleteParagraphCmd = command;
+        }
+
 
         /// <summary>
         /// コマンドが実行可能な状況か否かをけっています。
@@ -33,7 +42,8 @@ namespace ProjectDiary.Program.Commands.FixedNoteList
             fixedNoteList.Add(
                 new DTO.FixedNote()
                 {
-                    
+                    DeleteParagraphCommand = deleteParagraphCmd,
+                    ParagraphIndex = fixedNoteList.Count,
                 }
                 );
         }

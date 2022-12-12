@@ -1,5 +1,4 @@
 ﻿using ProjectDiary.Program.Commands.FixedNoteList;
-using ProjectDiary.Program.Commands.NoteList;
 using System.ComponentModel;
 
 namespace ProjectDiary.Program.DTO
@@ -8,7 +7,7 @@ namespace ProjectDiary.Program.DTO
     /// <summary>
     /// 固定メモのパラグラフです。
     /// </summary>
-    public class FixedNote : INotifyPropertyChanged
+    public class FixedNote : ListDto, INotifyPropertyChanged
     {
         /// <summary>
         /// メモ作成時間です。
@@ -82,6 +81,11 @@ namespace ProjectDiary.Program.DTO
         {
             if (PropertyChanged == null) return;
             PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
+
+        public override void UpdateIndex(int index)
+        {
+            ParagraphIndex = index;
         }
     }
 }
