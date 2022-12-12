@@ -8,14 +8,14 @@ using System.Linq;
 namespace ProjectDiary.Program.ViewModelPart
 {
     /// <summary>
-    /// チェック一覧の部分にバインドするビューモデルです。
+    /// チェックToDo一覧の部分にバインドするビューモデルです。
     /// </summary>
     internal class CheckListViewModelPart
     {
         /// <summary>
-        /// チェック一覧への表示のためのコレクションです。
+        /// チェックToDo一覧への表示のためのコレクションです。
         /// </summary>
-        public ObservableCollection<CheckRowTreeSource> CheckTodoList { get; private set; } = new ObservableCollection<CheckRowTreeSource>();
+        public ObservableCollection<CheckToDoTreeRow> CheckTodoList { get; private set; } = new ObservableCollection<CheckToDoTreeRow>();
 
         /// <summary>
         /// 選択したチェックリストの行の一つ上に追加する処理のためのコマンドです。
@@ -41,7 +41,7 @@ namespace ProjectDiary.Program.ViewModelPart
         /// 初期設定をします。
         /// </summary>
         /// <param name="list">チェックリストの情報リスト。</param>
-        internal void SetDefalt(List<CheckRowTreeSource> list)
+        internal void SetDefalt(List<CheckToDoTreeRow> list)
         {
             var cmds = new CheckListCommandSet(
                 AddToUpRowCmd,

@@ -3,6 +3,9 @@ using System.Windows.Input;
 
 namespace ProjectDiary.Program.Commands.CheckList
 {
+    /// <summary>
+    /// 選択した行に子の行を追加するボタンのコマンドのクラスです。
+    /// </summary>
     public class AddChildrenCommand : RowCmdBase, ICommand
     {
         public bool CanExecute(object parameter)

@@ -5,7 +5,7 @@ using System.Windows.Input;
 namespace ProjectDiary.Program.Commands.CheckList
 {
     /// <summary>
-    ///　
+    ///　選択した行を消去するためのボタンのコマンドです。
     /// </summary>
     public class DeleteCheckRowCommand : RowCmdBase, ICommand
     {

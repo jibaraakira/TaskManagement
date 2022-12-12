@@ -119,8 +119,8 @@ namespace ProjectDiary
         {
             WorkTaskVMP.TaskList = new ObservableCollection<WorkTask>(WorkTaskDAO.GetWorkTaksArray());
             CheckListVMP.SetDefalt(CheckTodoDao.GetTodoArray());
-            MemoListVMP.SetDefalt(MemoDao.GetTodoArray());
-            FixedMeMoVMP.SetDefalut(FixedMemoDao.GetTodoArray());
+            MemoListVMP.SetDefalt(SequenceNoteDao.GetTimeNoteArray());
+            FixedMeMoVMP.SetDefalut(FixedSequenceNoteDao.GetFixedNoteArray());
         }
 
         /// <summary>

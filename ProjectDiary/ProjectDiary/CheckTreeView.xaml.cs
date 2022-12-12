@@ -25,7 +25,7 @@ namespace ProjectDiary
         private void CheckBox_Click(object sender, RoutedEventArgs e)
         {
             var checkBox = (CheckBox)sender;
-            var source = (CheckRowTreeSource)checkBox.DataContext;
+            var source = (CheckToDoTreeRow)checkBox.DataContext;
 
             source.UpdateChildStatus();
         }

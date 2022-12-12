@@ -1,6 +1,5 @@
 ﻿using ProjectDiary.Program.DTO;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
 
 namespace ProjectDiary.Program.Commands.TaskList
 {
@@ -15,6 +14,9 @@ namespace ProjectDiary.Program.Commands.TaskList
         /// </summary>
         internal ObservableCollection<WorkTask> TaskList { get; private set; }
 
+        /// <summary>
+        /// 選択した一覧の行のインデックス値です。
+        /// </summary>
         internal int selectedIndex;
 
         /// <summary>

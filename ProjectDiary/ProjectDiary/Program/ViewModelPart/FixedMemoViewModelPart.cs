@@ -7,19 +7,19 @@ using System.Linq;
 namespace ProjectDiary.Program.ViewModelPart
 {
     /// <summary>
-    /// 固定メモの部分にバインドするビューモデルです。
+    /// 固定メモ一覧の部分にバインドするビューモデルです。
     /// </summary>
     internal class FixedMemoViewModelPart
     {
         /// <summary>
-        /// メモ一覧への表示のためのコレクションです。
+        /// 固定メモ一覧の表示のためのコレクションです。
         /// </summary>
         public ObservableCollection<FixedNote> FixedNoteList { get; set; }
 
         /// <summary>
         /// 一覧にメモを追加するためのコマンドです。
         /// </summary>
-        public CreateFixedNoteCommand CreateFixedNoteCmd { get; set; } = new CreateFixedNoteCommand();
+        public CreateParagraphCommand CreateFixedNoteCmd { get; set; } = new CreateParagraphCommand();
 
         /// <summary>
         /// 一覧のメモを消去する処理ためのコマンドです。

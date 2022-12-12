@@ -3,7 +3,7 @@
 namespace ProjectDiary.Program.Domains
 {
     /// <summary>
-    /// カスタムした
+    /// カスタムしたDateTimeのクラスです。
     /// </summary>
     internal class CustomDateTime
     {

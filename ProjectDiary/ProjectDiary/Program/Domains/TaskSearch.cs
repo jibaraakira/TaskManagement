@@ -1,8 +1,5 @@
 ﻿using ProjectDiary.Program.DTO;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
 
 namespace ProjectDiary.Program.ViewManipurator
 {

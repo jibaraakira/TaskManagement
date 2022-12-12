@@ -14,28 +14,28 @@ namespace ProjectDiary.Program.ViewModelPart
         /// <summary>
         /// メモ一覧への表示のためのコレクションです。
         /// </summary>
-        public ObservableCollection<Note> NoteList { get;  set; } 
+        public ObservableCollection<TimeNote> NoteList { get;  set; } 
 
         /// <summary>
         /// メモ一覧を作成するためのコマンドです。
         /// </summary>
-        public CreateMemoCommand CreateMemoCmd { get;  set; }
+        public CreateTimeNoteCommand CreateMemoCmd { get;  set; }
 
         /// <summary>
         /// メモ一覧のメモを消去する処理ためのコマンドです。
         /// </summary>
-        public DeleteNoteCommand DeleteMemoCmd { get;  set; } = new DeleteNoteCommand();
+        public DeleteTimeNoteCommand DeleteMemoCmd { get;  set; } = new DeleteTimeNoteCommand();
 
 
         /// <summary>
         /// メモ一覧の初期設定をします。
         /// </summary>
         /// <param name="notes">メモのリスト。</param>
-        public void SetDefalt(List<Note> notes)
+        public void SetDefalt(List<TimeNote> notes)
         {
-            CreateMemoCmd = new CreateMemoCommand(DeleteMemoCmd);
+            CreateMemoCmd = new CreateTimeNoteCommand(DeleteMemoCmd);
             NoteList = 
-                new ObservableCollection<Note>(
+                new ObservableCollection<TimeNote>(
                     notes.Select(item => {
                         item.SetDeleteNoteComand(DeleteMemoCmd); 
                         return item; 

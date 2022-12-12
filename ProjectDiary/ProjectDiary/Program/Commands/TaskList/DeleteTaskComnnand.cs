@@ -1,41 +1,43 @@
-﻿using ProjectDiary.Program.DTO;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection.Metadata;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 
 namespace ProjectDiary.Program.Commands.TaskList
 {
     /// <summary>
-    /// 選んだタスクを消去します。
+    /// タスク一覧で選んだ行のタスクデータを消去します。
     /// </summary>
     internal class DeleteTaskComnnand : TaskCmd, ICommand
     {
-        Action deleteAction;
-        Func<bool> checkSelectedIndexFunc;
-
+        /// <summary>
+        /// ビューを消去するメソッドです。
+        /// </summary>
+        private Action deleteAction;
 
         /// <summary>
-        /// 
+        /// 選択した行のインデックス値を変更するためのメソッドです。
+        /// </summary>
+        private Func<bool> checkSelectedIndexFunc;
+
+        /// <summary>
+        /// イベントハンドラーです。
         /// </summary>
         public event EventHandler CanExecuteChanged;
 
         /// <summary>
-        /// 
+        /// コマンドが実行可能な状況か否かを決定します。
         /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
+        /// <param name="parameter">パラメーター。</param>
+        /// <returns>可能ならtrue、不可能ならfalse。</returns>
         public bool CanExecute(object parameter)
         {
             return true;
         }
 
         /// <summary>
-        /// 
+        /// コマンドが実行した時のメソッドです。
         /// </summary>
-        /// <param name="parameter"></param>
+        /// <param name="parameter">パラメーター。</param>
         public void Execute(object parameter)
         {
             if (!checkSelectedIndexFunc()) return;
@@ -54,7 +56,12 @@ namespace ProjectDiary.Program.Commands.TaskList
             }     
         }
 
-        internal void SetAction(Action deleteView, Func<bool> checkFunc)
+        /// <summary>
+        /// メソッドを追加します。
+        /// </summary>
+        /// <param name="deleteView">ビューを消去するメソッド。</param>
+        /// <param name="checkFunc">選択した行のインデックス値を変更するためのメソッド。</param>
+        internal void SetMethods(Action deleteView, Func<bool> checkFunc)
         {
 
             deleteAction = deleteView;

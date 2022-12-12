@@ -51,7 +51,7 @@ namespace ProjectDiary.Program.ViewModelPart
         {
 
             DeleteTaskCmd.SetTaskViewListValues(TaskList, SelectedIndex);
-            DeleteTaskCmd.SetAction(DeleteView, CheckSelectedIndex);
+            DeleteTaskCmd.SetMethods(DeleteView, CheckSelectedIndex);
         }
 
         /// <summary>

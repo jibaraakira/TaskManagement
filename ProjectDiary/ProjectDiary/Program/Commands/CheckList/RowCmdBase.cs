@@ -12,12 +12,12 @@ namespace ProjectDiary.Program.Commands.CheckList
         /// <summary>
         /// チェックリストの内容を持つコレクション。
         /// </summary>
-        internal ObservableCollection<CheckRowTreeSource> CheckList;
+        internal ObservableCollection<CheckToDoTreeRow> CheckList;
 
         /// <summary>
         /// 
         /// </summary>
-        internal ObservableCollection<CheckRowTreeSource> SelectedRowList;
+        internal ObservableCollection<CheckToDoTreeRow> SelectedRowList;
 
         /// <summary>
         /// 
@@ -43,7 +43,7 @@ namespace ProjectDiary.Program.Commands.CheckList
         /// チェックリストの内容を持つコレクションをセットします。
         /// </summary>
         /// <param name="noteList">チェックリストの内容を持つコレクション。</param>
-        internal void SetCheckList(ObservableCollection<CheckRowTreeSource> list)
+        internal void SetCheckList(ObservableCollection<CheckToDoTreeRow> list)
         {
             CheckList = list;
         }
@@ -71,7 +71,7 @@ namespace ProjectDiary.Program.Commands.CheckList
         /// </summary>
         /// <param name="list">リスト</param>
         /// <returns>チェック行の情報</returns>
-        internal CheckRowTreeSource GetRow(ObservableCollection<CheckRowTreeSource> list)
+        internal CheckToDoTreeRow GetRow(ObservableCollection<CheckToDoTreeRow> list)
         {
             // もし、現在より深い階層のチェック行の情報が取得できる場合、再帰的に取得する。
             if (hieracheFloor < pathNumArray.Length - 1)
@@ -89,7 +89,7 @@ namespace ProjectDiary.Program.Commands.CheckList
                 }
                 else
                 {
-                    return new CheckRowTreeSource();
+                    return new CheckToDoTreeRow();
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace ProjectDiary.Program.Commands.CheckList
         /// 選択したチェックリストの行が格納されているコレクションを取得します。
         /// </summary>
         /// <param name="list"></param>
-        internal void SetTargetRowIndexAndCollection(ObservableCollection<CheckRowTreeSource> list)
+        internal void SetTargetRowIndexAndCollection(ObservableCollection<CheckToDoTreeRow> list)
         {
             // もし、現在より深い階層のチェック行のコレクションが取得できる場合、再帰的に取得する。
             if (hieracheFloor < pathNumArray.Length - 1)
@@ -110,7 +110,7 @@ namespace ProjectDiary.Program.Commands.CheckList
             else
             {
                 // 選択した行が格納されているコレクションを取得する。
-                SelectedRowList = list ?? new ObservableCollection<CheckRowTreeSource>();
+                SelectedRowList = list ?? new ObservableCollection<CheckToDoTreeRow>();
                 return;
             }
         }
@@ -120,7 +120,7 @@ namespace ProjectDiary.Program.Commands.CheckList
         /// </summary>
         /// <param name="list"></param>
         /// <param name="hieracheFloor"></param>
-        internal void ResetHierarchyPath(ObservableCollection<CheckRowTreeSource> list, int hieracheFloor = 0, string parentPath = "")
+        internal void ResetHierarchyPath(ObservableCollection<CheckToDoTreeRow> list, int hieracheFloor = 0, string parentPath = "")
         {
 
             foreach (var (item, index) in list.Select((v, i) => (v, i)))
@@ -142,9 +142,9 @@ namespace ProjectDiary.Program.Commands.CheckList
         #endregion
 
 
-        public CheckRowTreeSource GetNewCheckListRow()
+        public CheckToDoTreeRow GetNewCheckListRow()
         {
-            return new CheckRowTreeSource() {
+            return new CheckToDoTreeRow() {
                 Text = "",
                 StartDate = CustomDateTime.GetNowDate(),
                 AddToUpRowCmd = cmdSet.AddToUpRowCmd,

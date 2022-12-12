@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Google ドライブ\\C#\\日誌システム_C#_2022-12-01\\ProjectDiary\\ProjectDiary\\ProjectDiary.csproj": {}
+    "C:\\Users\\user\\Google ドライブ\\C#\\n日誌システム_C#_2022-12-01\\TaskManagement\\ProjectDiary\\ProjectDiary\\ProjectDiary.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Google ドライブ\\C#\\日誌システム_C#_2022-12-01\\ProjectDiary\\ProjectDiary\\ProjectDiary.csproj": {
+    "C:\\Users\\user\\Google ドライブ\\C#\\n日誌システム_C#_2022-12-01\\TaskManagement\\ProjectDiary\\ProjectDiary\\ProjectDiary.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Google ドライブ\\C#\\日誌システム_C#_2022-12-01\\ProjectDiary\\ProjectDiary\\ProjectDiary.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Google ドライブ\\C#\\n日誌システム_C#_2022-12-01\\TaskManagement\\ProjectDiary\\ProjectDiary\\ProjectDiary.csproj",
         "projectName": "ProjectDiary",
-        "projectPath": "C:\\Users\\user\\Google ドライブ\\C#\\日誌システム_C#_2022-12-01\\ProjectDiary\\ProjectDiary\\ProjectDiary.csproj",
+        "projectPath": "C:\\Users\\user\\Google ドライブ\\C#\\n日誌システム_C#_2022-12-01\\TaskManagement\\ProjectDiary\\ProjectDiary\\ProjectDiary.csproj",
         "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Google ドライブ\\C#\\日誌システム_C#_2022-12-01\\ProjectDiary\\ProjectDiary\\obj\\",
+        "outputPath": "C:\\Users\\user\\Google ドライブ\\C#\\n日誌システム_C#_2022-12-01\\TaskManagement\\ProjectDiary\\ProjectDiary\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -3,15 +3,31 @@ using System.Windows.Input;
 
 namespace ProjectDiary.Program.Commands.FixedNoteList
 {
-    public class CreateFixedNoteCommand: CreateFixedCmd, ICommand
+    /// <summary>
+    /// 固定メモの段落を追加するためのコマンドです。
+    /// </summary>
+    public class CreateParagraphCommand: CreateFixedCmd, ICommand
     {
+
+        /// <summary>
+        /// イベントハンドラーです。
+        /// </summary>
         public event EventHandler CanExecuteChanged;
 
+        /// <summary>
+        /// コマンドが実行可能な状況か否かをけっています。
+        /// </summary>
+        /// <param name="parameter">パラメーター。</param>
+        /// <returns>可能ならtrue、不可能ならfalse。</returns>
         public bool CanExecute(object parameter)
         {
             return true;
         }
 
+        /// <summary>
+        /// コマンドが実行した時のメソッドです。
+        /// </summary>
+        /// <param name="parameter">パラメーター。</param>
         public void Execute(object parameter)
         {
             fixedNoteList.Add(

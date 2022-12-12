@@ -1,13 +1,17 @@
 ﻿using ProjectDiary.Program.DTO;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ProjectDiary.Program.DAO
 {
+    /// <summary>
+    /// データベースからタスクのデータを参照、追加、更新、削除をするDAOです。
+    /// </summary>
     internal class WorkTaskDAO
     {
 
+        /// <summary>
+        /// タスクのデータのリストを取得します。
+        /// </summary>
+        /// <returns>タスクのデータのリスト。</returns>
         internal static WorkTask[] GetWorkTaksArray()
         {
             return new WorkTask[] {

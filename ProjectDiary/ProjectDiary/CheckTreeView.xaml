@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dto="clr-namespace:ProjectDiary.Program.DTO" 
-             d:DataContext="{d:DesignInstance Type=dto:CheckRowTreeSource}"
+             d:DataContext="{d:DesignInstance Type=dto:CheckToDoTreeRow}"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <TreeView.Resources>
@@ -116,7 +116,7 @@
         </Style>
     </TreeView.Resources>
     <TreeView.ItemTemplate>
-        <HierarchicalDataTemplate DataType="{x:Type dto:CheckRowTreeSource}" ItemsSource="{Binding Children}">
+        <HierarchicalDataTemplate DataType="{x:Type dto:CheckToDoTreeRow}" ItemsSource="{Binding Children}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

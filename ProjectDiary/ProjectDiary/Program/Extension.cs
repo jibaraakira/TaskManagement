@@ -35,7 +35,7 @@ namespace ProjectDiary.Program
         /// <param name="parentList">親となるリスト</param>
         /// <param name="downList">子になるリスト</param>
         /// <param name="floor">階層。</param>
-        public static void CreateTree(this ObservableCollection<CheckRowTreeSource> parentList , IEnumerable<CheckRowTreeSource> downList, int floor = 0) 
+        public static void CreateTree(this ObservableCollection<CheckToDoTreeRow> parentList , IEnumerable<CheckToDoTreeRow> downList, int floor = 0) 
         {
             if (!downList.Any())
             {

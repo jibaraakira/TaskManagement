@@ -3,9 +3,16 @@ using System.Collections.Generic;
 
 namespace ProjectDiary.Program.DAO
 {
-    public class FixedMemoDao
+    /// <summary>
+    /// データベースから固定メモのデータを参照、追加、更新、削除をするDAOです。
+    /// </summary>
+    public class FixedSequenceNoteDao
     {
-        internal static List<FixedNote> GetTodoArray()
+        /// <summary>
+        /// 固定メモのデータのリストを取得します。
+        /// </summary>
+        /// <returns>固定メモのデータのリスト。</returns>
+        internal static List<FixedNote> GetFixedNoteArray()
         {
             return new List<FixedNote>()
             {

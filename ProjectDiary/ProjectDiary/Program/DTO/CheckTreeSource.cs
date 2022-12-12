@@ -10,7 +10,7 @@ namespace ProjectDiary.Program.DTO
     /// チェックリストの行です。
     /// </summary>
     [Serializable]
-    public class CheckRowTreeSource : INotifyPropertyChanged
+    public class CheckToDoTreeRow : INotifyPropertyChanged
     {
         /// <summary>
         /// 対象の行の子の行の行を表示するか否かを決めるブール値。
@@ -40,12 +40,12 @@ namespace ProjectDiary.Program.DTO
         /// <summary>
         /// 対象の行の親の行。
         /// </summary>
-        private CheckRowTreeSource _Parent = null;
+        private CheckToDoTreeRow _Parent = null;
 
         /// <summary>
         /// 対象の行が持つ子の行を複数格納するコレクション。
         /// </summary>
-        private ObservableCollection<CheckRowTreeSource> _Children = new ObservableCollection<CheckRowTreeSource>();
+        private ObservableCollection<CheckToDoTreeRow> _Children = new ObservableCollection<CheckToDoTreeRow>();
 
         /// <summary>
         /// 対象の行が、階層構造の位置を示すパスの文字列。
@@ -73,12 +73,12 @@ namespace ProjectDiary.Program.DTO
         public AddToDownRowCommand AddToDownRowCmd { get; set; }
 
         /// <summary>
-        /// 
+        /// 選択した行を消去するためのボタンのコマンドのプロパティです。
         /// </summary>
         public DeleteCheckRowCommand DeleteCheckRowCmd { get; set; }
 
         /// <summary>
-        /// 
+        /// 選択した行に子の行を追加するボタンのコマンドのプロパティです。
         /// </summary>
         public AddChildrenCommand AddChildrenCommand { get; set; }
 
@@ -125,7 +125,7 @@ namespace ProjectDiary.Program.DTO
         /// <summary>
         /// 対象の行の親の行のプロパティ。
         /// </summary>
-        public CheckRowTreeSource Parent
+        public CheckToDoTreeRow Parent
         {
             get { return _Parent; }
             set
@@ -209,7 +209,7 @@ namespace ProjectDiary.Program.DTO
         /// <summary>
         /// 対象の行が持つ子の行を複数格納するコレクション。
         /// </summary>
-        public ObservableCollection<CheckRowTreeSource> Children
+        public ObservableCollection<CheckToDoTreeRow> Children
         {
             get { return _Children; }
             set
@@ -238,7 +238,7 @@ namespace ProjectDiary.Program.DTO
         /// 対象の行に子の行を１つ追加します。
         /// </summary>
         /// <param name="child">子の行。</param>
-        public void Add(CheckRowTreeSource child)
+        public void Add(CheckToDoTreeRow child)
         {
             child.Parent = this;
             Children.Add(child);
@@ -248,7 +248,6 @@ namespace ProjectDiary.Program.DTO
         /// <summary>
         /// 子の行を更新します。
         /// </summary>
-
         public void UpdateChildStatus()
         {
             if (null != IsChecked)
@@ -268,7 +267,7 @@ namespace ProjectDiary.Program.DTO
         /// 対象の行の子の行のコレクションを返します。
         /// </summary>
         /// <returns></returns>
-        internal ObservableCollection<CheckRowTreeSource> GetChild()
+        internal ObservableCollection<CheckToDoTreeRow> GetChild()
         {
             return Children ;
         }
@@ -276,10 +275,10 @@ namespace ProjectDiary.Program.DTO
         /// <summary>
         /// コマンドを追加します。
         /// </summary>
-        /// <param name="u"></param>
-        /// <param name="d"></param>
-        /// <param name="del"></param>
-        /// <param name="c"></param>
+        /// <param name="u">選択した行の１つ上に行を追加するためのボタンのコマンド。</param>
+        /// <param name="d">選択した行の１つ下に行を追加するためのボタンのコマンド。</param>
+        /// <param name="del">選択した行を消去するためのボタンのコマンド。</param>
+        /// <param name="c">選択した行に子の行を追加するボタンのコマンド。</param>
         internal void SetCommand(
             AddToUpRowCommand u,
             AddToDownRowCommand d,
@@ -295,9 +294,9 @@ namespace ProjectDiary.Program.DTO
         /// <summary>
         /// 子の行を追加します。
         /// </summary>
-        internal void SetChild(CheckRowTreeSource CheckRowTreeSource)
+        internal void SetChild(CheckToDoTreeRow CheckToDoTreeRow)
         {
-            Children.Add(CheckRowTreeSource);
+            Children.Add(CheckToDoTreeRow);
         }
     }
 }
