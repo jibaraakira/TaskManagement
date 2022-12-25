@@ -4,9 +4,193 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectDiary" 
-        d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
+        xmlns:viewmodelpart="clr-namespace:ProjectDiary.Program.ViewModelPart"
+        d:DataContext="{d:DesignInstance Type=viewmodelpart:WorkTaskViewModelPart}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1200">
+        Title="MainWindow" 
+        Background="{StaticResource baseColor}"
+        FontStyle="Normal"
+        Height="600" 
+        Width="1200">
+    <Window.Resources>
+            <SolidColorBrush x:Key="StandardBorderBrush" Color="#888" />
+    <SolidColorBrush x:Key="StandardBackgroundBrush" Color="Black" />
+    <SolidColorBrush x:Key="HoverBorderBrush" Color="#DDD" />
+    <SolidColorBrush x:Key="SelectedBackgroundBrush" Color="Gray" />
+    <SolidColorBrush x:Key="SelectedForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
+    <SolidColorBrush x:Key="GlyphBrush" Color="#444" />
+    <SolidColorBrush x:Key="NormalBrush" Color="#888" />
+    <SolidColorBrush x:Key="NormalBorderBrush" Color="#888" />
+    <SolidColorBrush x:Key="HorizontalNormalBrush" Color="#FF686868" />
+    <SolidColorBrush x:Key="HorizontalNormalBorderBrush" Color="#888" />
+
+    <LinearGradientBrush x:Key="ListBoxBackgroundBrush" StartPoint="0,0" EndPoint="1,0.001">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="White" Offset="0.0" />
+                <GradientStop Color="White" Offset="0.6" />
+                <GradientStop Color="#DDDDDD" Offset="1.2"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="StandardBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#FFF" Offset="0.0"/>
+                <GradientStop Color="#CCC" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="PressedBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#BBB" Offset="0.0"/>
+                <GradientStop Color="#EEE" Offset="0.1"/>
+                <GradientStop Color="#EEE" Offset="0.9"/>
+                <GradientStop Color="#FFF" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
+    <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Visibility" Value="Hidden"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border Name="Border" Margin="1" CornerRadius="2" Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource NormalBorderBrush}" BorderThickness="1">
+                        <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{StaticResource GlyphBrush}" Data="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Visibility" Value="Hidden"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border Background="Black" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border CornerRadius="4" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0"  Width="8" Margin="8,0,-2,0"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition MaxHeight="0"/>
+                <RowDefinition Height="0.00001*"/>
+                <RowDefinition MaxHeight="0"/>
+            </Grid.RowDefinitions>
+            <Border Grid.RowSpan="3" CornerRadius="2" Background="Transparent" />
+    <RepeatButton Grid.Row="0" Style="{StaticResource ScrollBarLineButton}" Height="18" Command="ScrollBar.LineUpCommand" Content="M 0 4 L 8 4 L 4 0 Z" />
+    <Track Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
+        <Track.DecreaseRepeatButton>
+            <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageUpCommand" />
+        </Track.DecreaseRepeatButton>
+        <Track.Thumb>
+            <Thumb Style="{StaticResource ScrollBarThumb}" Margin="1,0,1,0" Background="{StaticResource HorizontalNormalBrush}" BorderBrush="{StaticResource HorizontalNormalBorderBrush}" />
+        </Track.Thumb>
+        <Track.IncreaseRepeatButton>
+            <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageDownCommand" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+            <RepeatButton Grid.Row="3" Style="{StaticResource ScrollBarLineButton}" Height="18" Command="ScrollBar.LineDownCommand" Content="M 0 0 L 4 4 L 8 0 Z"/>
+        </Grid>
+    </ControlTemplate>
+    <ControlTemplate x:Key="HorizontalScrollBar" TargetType="{x:Type ScrollBar}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MaxWidth="18"/>
+                <ColumnDefinition Width="0.00001*"/>
+                <ColumnDefinition MaxWidth="18"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.ColumnSpan="3" CornerRadius="2" Background="#F0F0F0"/>
+            <RepeatButton Grid.Column="0"  Style="{StaticResource ScrollBarLineButton}" Width="18" Command="ScrollBar.LineLeftCommand" Content="M 4 0 L 4 8 L 0 4 Z" />
+            <Track Name="PART_Track" Grid.Column="1" IsDirectionReversed="False">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageLeftCommand" />
+                </Track.DecreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource ScrollBarThumb}" Margin="0,1,0,1" Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource NormalBorderBrush}" />
+                </Track.Thumb>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageRightCommand" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+            <RepeatButton Grid.Column="3" Style="{StaticResource ScrollBarLineButton}" Width="18" Command="ScrollBar.LineRightCommand" Content="M 0 0 L 4 4 L 0 8 Z"/>
+        </Grid>
+    </ControlTemplate>
+    <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto"/>
+                <Setter Property="Height" Value="18" />
+                <Setter Property="Template" Value="{StaticResource HorizontalScrollBar}" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Width" Value="18"/>
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="FavsScrollViewer" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ScrollContentPresenter Grid.Column="1"/>
+                        <ScrollBar Name="PART_VerticalScrollBar" Value="{TemplateBinding VerticalOffset}" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                        <ScrollBar Name="PART_HorizontalScrollBar" Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Value="{TemplateBinding HorizontalOffset}" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -27,33 +211,42 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Label Content="タスク一覧" Grid.Column="0" FontWeight="Bold" FontSize="15" />
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 0">
+                    <Label Content="タスク一覧" Grid.Column="0" FontWeight="Bold" FontSize="15"  Foreground="{StaticResource fontColor}"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="日付範囲"/>
-                            <DatePicker Name="TodayDataPicker"/>
+                            <Label Content="日付範囲" 
+                                     Foreground="{StaticResource fontColor}" VerticalAlignment="Center"/>
+                            <DatePicker Name="TodayDataPicker" VerticalAlignment="Center" CalendarStyle="{StaticResource CustomCalendar}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="タグ一覧"/>
-                            <TextBox Width="80"/>
+                            <Label Content="タグ一覧" Foreground="{StaticResource fontColor}"  VerticalAlignment="Center"/>
+                            <TextBox Width="80" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Margin="0 3" Style="{StaticResource DefalutTextBox}" Foreground="{StaticResource fontColor}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="状態"/>
+                            <Label Content="状態" Foreground="{StaticResource fontColor}"  VerticalAlignment="Center"/>
                             <ComboBox Name="StatusSearchCmb"
                                   Width="90"
-                                  
+                                  VerticalAlignment="Stretch"
+                                  VerticalContentAlignment="Center"
                                   SelectedValuePath="Key"
+                                  Margin="0 3"
                                   DisplayMemberPath="Value"/>
                         </StackPanel>
                         <Button x:Name="DeleteTaskButton"
+                            Style="{StaticResource DefalutButton}"
                             Command="{Binding WorkTaskVMP.DeleteTaskCmd}"
-                            Padding="5 0"
-                            Margin="10 0 0 0"
+                            Padding="10 0"
+                            Margin="10 3 0 3"
                             Content="削除"/>
                     </StackPanel>
                 </Grid>
                 <DataGrid Name="TaskViewList" 
+                          GridLinesVisibility="Horizontal"
+                          BorderThickness="0"
                           Grid.Row="1"
+                          Margin="0 5 0 0 "
+                          Foreground="{StaticResource fontColor}"
+                          HorizontalGridLinesBrush="{StaticResource mainColor}"
                           ItemsSource="{Binding WorkTaskVMP.TaskList}" 
                           SelectedIndex="{Binding WorkTaskVMP.SelectedIndex}"
                           AutoGenerateColumns="False"
@@ -61,12 +254,6 @@
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           CanUserAddRows="True"
                           HeadersVisibility="Column">
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="HorizontalContentAlignment"
-                                Value="Center" />
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="2*">
                             <DataGridTemplateColumn.HeaderStyle>
@@ -75,6 +262,7 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="DataGridColumnHeader">
                                                 <TextBlock Text="時間"
+                                                       Foreground="White"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"/>
                                             </ControlTemplate>
@@ -84,71 +272,94 @@
                             </DataGridTemplateColumn.HeaderStyle>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Grid>
+                                    <Grid Margin="-1">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
-                                        <Label Content="開始" Grid.Row="0" Grid.Column="0"/>
-                                        <Grid Grid.Row="0" Grid.Column="1">
+                                        <Label Content="開始" Grid.Row="0" Grid.Column="0" Margin="0 -2.5 0 -5" Foreground="{StaticResource fontColor}"/>
+                                        <Grid Grid.Row="0" Grid.Column="1" Margin="0 -2.5 0 -5">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition  Width="Auto"/>
                                                 <ColumnDefinition/>
                                             </Grid.ColumnDefinitions>
-                                            <Label Content="{Binding StartDate}" Grid.Column="0"/>
-                                            <Label Content="{Binding StartTime}" Grid.Column="1"/>
+                                            <Label Content="{Binding StartDate}" Grid.Column="0" Foreground="{StaticResource fontColor}"/>
+                                            <Label Content="{Binding StartTime}" Grid.Column="1" Foreground="{StaticResource fontColor}"/>
                                         </Grid>
-                                        <Label Content="終了" Grid.Row="1" Grid.Column="0"/>
-                                        <Grid Grid.Row="1" Grid.Column="1">
+                                        <Label Content="終了" Grid.Row="1" Grid.Column="0"  Margin="0 -5 0 -2.5" Foreground="{StaticResource fontColor}"/>
+                                        <Grid Grid.Row="1" Grid.Column="1"  Margin="0 -5 0 -2.5">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition  Width="Auto"/>
                                                 <ColumnDefinition/>
                                             </Grid.ColumnDefinitions>
-                                            <Label Content="{Binding EndtDate}" Grid.Column="0"/>
-                                            <Label Content="{Binding EndTime}" Grid.Column="1"/>
+                                            <Label Content="{Binding EndtDate}" Grid.Column="0" Foreground="{StaticResource fontColor}"/>
+                                            <Label Content="{Binding EndTime}" Grid.Column="1" Foreground="{StaticResource fontColor}"/>
                                         </Grid>
                                     </Grid>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="タスク名" Width="3*" 
-                                            Binding="{Binding TaskName}">
-                            <DataGridTextColumn.ElementStyle>
-                                <Style  TargetType="TextBlock">
-                                    <Setter Property="VerticalAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
-                        </DataGridTextColumn>
-                        <DataGridTextColumn Header="タグ一覧" Width="2*" />
-                        <DataGridComboBoxColumn Header="状態" Width="1*"
-                                                x:Name="StatusColCmb"
-                                                DisplayMemberPath="StatusName"
-                                                SelectedValuePath="NowStatus"
-                                                SelectedValueBinding="{Binding Status, Mode=TwoWay}">
-                            <DataGridComboBoxColumn.ElementStyle>
-                                <Style TargetType="{x:Type ComboBox}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridComboBoxColumn.ElementStyle>
-                        </DataGridComboBoxColumn>
+                        <DataGridTemplateColumn Header="タスク名" Width="3*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding TaskName}" Foreground="{StaticResource fontColor}" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding TaskName}" Style="{StaticResource DefalutTextBox}" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Foreground="{StaticResource fontColor}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="タグ一覧" Width="2*" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="" Foreground="{StaticResource fontColor}" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="" Style="{StaticResource DefalutTextBox}" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Foreground="{StaticResource fontColor}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        <!--SelectedValueBinding="-->
+                        <DataGridTemplateColumn Header="状態" Width="1*"
+                                                x:Name="StatusColCmb">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Status}" Foreground="{StaticResource fontColor}" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <!--<DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox SelectedValue="{Binding Status}">
+                                        <ComboBoxItem Content="あいうえお" />
+                                        <ComboBoxItem Content="あｓｄｆ" />
+                                    </ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>-->
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
-            <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+            <Grid Grid.Row="1" HorizontalAlignment="Stretch" Background="{StaticResource baseColor}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Label Content="ToDoチェック一覧" Grid.Row="0" FontWeight="Bold" FontSize="15" />
+                <Label Content="ToDoチェック一覧" Grid.Row="0" FontWeight="Bold" FontSize="15" Foreground="{StaticResource fontColor}"/>
                 <local:CheckTreeView x:Name="CheckViewList" 
+                                     Background="{StaticResource baseColor}"
+                                     ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                     BorderThickness="0"
+                                     Margin="0 3 0 0"
                                      Grid.Row="1" 
-                                     ItemsSource="{Binding CheckListVMP.CheckTodoList}"
-                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                     ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+                                     ItemsSource="{Binding CheckListVMP.CheckTodoList}"/>
             </Grid>
         </Grid>
         <Grid Grid.Column="1" 
@@ -171,6 +382,7 @@
                     </Grid.ColumnDefinitions>
                     <Label Content="固定メモ" 
                            Grid.Column="0"
+                           Foreground="{StaticResource fontColor}"
                            FontWeight="Bold" 
                            FontSize="15"/>
                     <!-- 「メモ追加」ボタン -->
@@ -179,20 +391,18 @@
                              Command="{Binding FixedMeMoVMP.CreateFixedNoteCmd}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border Name="border" Background="LightGray">
+                                <Border Name="border" Background="{StaticResource mainColor}">
                                     <StackPanel Orientation="Horizontal" Name="NoteAddButton">
-                                        <Label Content="+" />
-                                        <Label Content="追加する" />
+                                        <Label Content="+" Foreground="{StaticResource fontColor}" />
+                                        <Label Content="追加する" Foreground="{StaticResource fontColor}"/>
                                     </StackPanel>
                                 </Border>
                                 <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" 
-                                             Value="true">
-                                        <Setter TargetName="border"
-                                                Property="Background"
-                                                Value="DarkGray" />
-                                        <Setter Property="Foreground"
-                                            Value="White" />
+                                    <Trigger Property="IsMouseOver"
+                                         Value="True">
+                                        <Setter Property="Background"
+                                                TargetName="border"
+                                            Value="{StaticResource mainHoverColor}" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -200,45 +410,51 @@
                     </Button>
                 </Grid>
                 <ListBox Name="MemoViewList" 
+                         Grid.Row="1"
                             ItemsSource="{Binding FixedMeMoVMP.FixedNoteList}"
-                            Grid.Row="1" 
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            Background="Transparent"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                            BorderBrush="Transparent"
                             HorizontalContentAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid HorizontalAlignment="Stretch" 
+                            <Border BorderBrush="{StaticResource mainColor}" BorderThickness="1 0 0 1">
+                                <Grid HorizontalAlignment="Stretch" 
                                     Margin="0 0 0 10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0"
-                                        Background="LightBlue" >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="5*" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Text="{Binding Headline}" 
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5*" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Text="{Binding Headline}" 
                                             Grid.Column="0"
+                                            Style="{StaticResource DefalutTextBox}"
+                                            Foreground="{StaticResource fontColor}"
                                             HorizontalAlignment="Stretch"/>
-                                    <!-- 「段落消去」ボタン -->
-                                    <Button Command="{Binding DeleteParagraphCommand}"
-                                            CommandParameter="{Binding ParagraphIndex}"
-                                            Content="削除" 
-                                            Grid.Column="1"/>
+                                        <!-- 「段落消去」ボタン -->
+                                        <Button Command="{Binding DeleteParagraphCommand}"
+                                                    CommandParameter="{Binding ParagraphIndex}"
+                                                    Style="{StaticResource DefalutButton}"
+                                                    Content="削除" 
+                                                    Grid.Column="1"/>
+                                    </Grid>
+                                    <TextBox Grid.Row="1"
+                                                Name="IllustDataGridRemarks"
+                                                Style="{StaticResource DefalutTextBox}"
+                                                Foreground="{StaticResource fontColor}"
+                                                Text="{Binding ParagraphText}"
+                                                VerticalScrollBarVisibility="Hidden"
+                                                HorizontalScrollBarVisibility="Disabled"
+                                                TextWrapping="Wrap"
+                                                AcceptsReturn="True"
+                                                HorizontalAlignment="Stretch">
+                                    </TextBox>
                                 </Grid>
-                                <TextBox Grid.Row="1"
-                                        Name="IllustDataGridRemarks"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        Text="{Binding ParagraphText}"
-                                        VerticalScrollBarVisibility="Hidden"
-                                        HorizontalScrollBarVisibility="Disabled"
-                                        TextWrapping="Wrap"
-                                        AcceptsReturn="True"
-                                        HorizontalAlignment="Stretch">
-                                </TextBox>
-                            </Grid>
+                            </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -256,6 +472,7 @@
                     </Grid.ColumnDefinitions>
                     <Label Content="時間列メモ一覧" 
                            Grid.Column="0"
+                           Foreground="{StaticResource fontColor}"
                            FontWeight="Bold" 
                            FontSize="15"/>
                     <!-- 「メモ追加」ボタン -->
@@ -263,20 +480,18 @@
                              Command="{Binding MemoListVMP.CreateMemoCmd}">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
-                                <Border Name="border" Background="LightGray">
+                                <Border Name="border" Background="{StaticResource mainColor}">
                                     <StackPanel Orientation="Horizontal" Name="NoteAddButton">
-                                        <Label Content="+" />
-                                        <Label Content="追加する" />
+                                        <Label Content="+" Foreground="{StaticResource fontColor}" />
+                                        <Label Content="追加する" Foreground="{StaticResource fontColor}"/>
                                     </StackPanel>
                                 </Border>
                                 <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" 
-                                             Value="true">
-                                        <Setter TargetName="border"
-                                                Property="Background"
-                                                Value="DarkGray" />
-                                        <Setter Property="Foreground"
-                                            Value="White" />
+                                    <Trigger Property="IsMouseOver"
+                                         Value="True">
+                                        <Setter Property="Background"
+                                                TargetName="border"
+                                            Value="{StaticResource mainHoverColor}" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -284,49 +499,59 @@
                     </Button>
                 </Grid>
                 <ListBox ItemsSource="{Binding MemoListVMP.NoteList}"
-                            Grid.Row="1" 
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            Grid.Row="1"
+                            BorderBrush="Transparent"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                            Background="{StaticResource baseColor}"
                             HorizontalContentAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Grid HorizontalAlignment="Stretch" 
+                            <Border BorderBrush="{StaticResource mainColor}" BorderThickness="1 0 0 1">
+                                <Grid HorizontalAlignment="Stretch" 
+                                  x:Name="ItemGrid"
                                     Margin="0 0 0 10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0"
-                                Background="LightBlue" >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="5*" />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Label Content="{Binding NoteCreateTime}" 
-                                    Grid.Column="0"
-                                HorizontalAlignment="Stretch"/>
-                                    <!-- 「メモ消去」ボタン -->
-                                    <Button Name="MemoDeleteButton"
-                                    Command="{Binding DeleteNoteCommand}"
-                                    CommandParameter="{Binding NoteIndex}"
-                                    Content="削除" 
-                                    Grid.Column="1"/>
-                                </Grid>
-                                <TextBox Grid.Row="1"
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5*" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="{Binding NoteCreateTime}" 
+                                                Grid.Column="0"
+                                                Foreground="{StaticResource fontColor}"
+                                                HorizontalAlignment="Stretch"/>
+                                        <!-- 「メモ消去」ボタン -->
+                                        <Button Name="MemoDeleteButton"
+                                                    Command="{Binding DeleteNoteCommand}"
+                                                    CommandParameter="{Binding NoteIndex}"
+                                                    Style="{StaticResource DefalutButton}"
+                                                    HorizontalContentAlignment="Center"
+                                                    Content="削除" 
+                                                    Grid.Column="1"/>
+                                    </Grid>
+                                    <TextBox Grid.Row="1"
                                         Name="IllustDataGridRemarks"
                                         Background="Transparent"
                                         BorderBrush="Transparent"
                                         Text="{Binding NoteText}"
+                                        Style="{StaticResource DefalutTextBox}"
                                         VerticalScrollBarVisibility="Hidden"
                                         HorizontalScrollBarVisibility="Disabled"
+                                        Foreground="{StaticResource fontColor}"
                                         TextWrapping="Wrap"
                                         AcceptsReturn="True"
                                         HorizontalAlignment="Stretch">
-                                </TextBox>
-                            </Grid>
+                                    </TextBox>
+                                </Grid>
+                            </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
         </Grid>
+        
     </Grid>
 </Window>

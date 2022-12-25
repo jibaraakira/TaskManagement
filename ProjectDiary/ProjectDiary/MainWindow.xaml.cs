@@ -89,7 +89,6 @@ namespace ProjectDiary
 
             InitializeComponent();
 
-            StatusColCmb.ItemsSource = StatusColumnCmbList;
             StatusSearchCmb.ItemsSource = StatusSearchCmbList;
 
             taskSearch = new TaskSearch(this);

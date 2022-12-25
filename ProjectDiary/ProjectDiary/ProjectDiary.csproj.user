@@ -7,15 +7,36 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="CheckTreeView.xaml.cs">
+    <Compile Update="Program\ViewElements\CheckTreeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="CheckTreeView.xaml">
+    <Page Update="Program\ViewElements\CheckTreeView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Program\Xaml\CustomCalendar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Program\Xaml\CustomDataGrid.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Program\Xaml\CustomComboBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Program\Xaml\CustomListBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Program\Xaml\Desing.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Program\Xaml\CustomDatePicker.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Program\Xaml\ScrollBar.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

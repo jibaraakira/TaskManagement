@@ -1,9 +1,16 @@
 ﻿<Application x:Class="ProjectDiary.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ProjectDiary"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Program/Xaml/Desing.xaml" />
+                <ResourceDictionary Source="Program/Xaml/CustomComboBox.xaml" />
+                <ResourceDictionary Source="Program/Xaml/CustomDatePicker.xaml" />
+                <ResourceDictionary Source="Program/Xaml/CustomDataGrid.xaml" />
+                <ResourceDictionary Source="Program/Xaml/CustomCalendar.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
